@@ -185,16 +185,11 @@ light:
       192.168.178.63:
         name: Karen desk stripe
 
-notify:
-  - name: pushbullet
-    platform: pushbullet
-    api_key: o.C7R6owXsfApzNdxr22NLQbYWaoEFD1jE
-
 panel_iframe:
   configurator:
     title: Configurator
     icon: mdi:wrench
-    url: http://sarah2:3218
+    url: http://sarah:3218
 
 group: !include groups.yaml
 automation: !include automations.yaml
