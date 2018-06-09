@@ -33,6 +33,8 @@ bath:
   entities:
     - device_tracker.sarahbath
     - media_player.snapcast_client_b827eb717511
+    - sensor.bathroom_temperature
+    - sensor.bathroom_humidity
 all_snapcast_clients:
   view: no
   name: All Snapcast clients
