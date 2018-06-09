@@ -1,0 +1,51 @@
+bedroom:
+  view: yes
+  name: Bedroom
+  entities:
+    - light.kugel_karen
+    - light.kugel_nik
+    - light.deckenlampe
+    - device_tracker.sarahbedroom
+    - device_tracker.pc19216817833
+    - media_player.bedroom_tv
+    - sensor.bedroom_temperature
+    - sensor.bedroom_humidity
+kitchen:
+  view: yes
+  name: Kitchen
+  entities:
+    - light.deckenleuchte_k1
+    - light.deckenleuchte_k2
+    - light.deckenleuchte_k3
+    - switch.washer
+    - media_player.snapcast_client_74da38287656
+    - device_tracker.sarahkitchen
+livingroom:
+  view: yes
+  name: Livingroom
+  entities:
+    - light.stehlampe
+    - device_tracker.ps44edab3
+    - device_tracker.pc19216817824
+bath:
+  view: yes
+  name: Bath
+  entities:
+    - device_tracker.sarahbath
+    - media_player.snapcast_client_b827eb717511
+all_snapcast_clients:
+  view: no
+  name: All Snapcast clients
+  entities:
+    - media_player.snapcast_client_b827eb717511
+    - media_player.snapcast_client_74da38287656
+    - media_player.snapcast_client_b827eb8aa668
+automations:
+  view: yes
+  name: All automations
+  entities:
+    - automation.autoswitch_to_spotify_source
+    - automation.lights_on_tv_bedroom
+    - automation.lights_off_tv_bedroom
+    - automation.karen_desk_stripe_on
+    - automation.karen_desk_stripe_off

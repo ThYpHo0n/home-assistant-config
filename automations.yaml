@@ -1,0 +1,83 @@
+#- alias: 'Rule 1 Light off if no one is home'
+#  trigger:
+#    # Prefix the first line of each trigger configuration
+#    # with a '-' to enter multiple
+#    - platform: state
+#      entity_id: thyphoonsiphone_2
+#      to: 'away'
+#    - platform: state
+#      entity_id:
+#      to: 'away'
+#  condition:
+#    # Prefix the first line of each condition configuration
+#    # with a '-'' to enter multiple
+#    - condition: state
+#      entity_id: group.all_devices
+#      state: 'home'
+#    - condition: time
+#      after: '16:00:00'
+#      before: '23:00:00'
+#  action:
+#    service: homeassistant.turn_off
+#    entity_id: group.all_lights
+- id: autoswitch_spotify
+  alias: Autoswitch to Spotify source
+  initial_state: 'off'
+  trigger:
+    platform: state
+    to: playing
+    entity_id: media_player.spotify
+  condition:
+    - condition: template
+      value_template: "{{states.media_player.spotify.attributes.source=='Multi-Room Audio'}}"
+  action:
+    - service: media_player.select_source
+      data:
+        entity_id: all_snapcast_clients
+        source: Spotify
+
+- id: lights_on_tv_bedroom
+  alias: Automatically turn on lights in bedroom when TV turned on
+  trigger:
+    platform: state
+    to: playing
+    entity_id: media_player.bedroom_tv
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.bedroom_movies
+
+- id: lights_off_tv_bedroom
+  alias: Automatically turn off lights in bedroom when TV turned off
+  trigger:
+    platform: state
+    to: 'off'
+    entity_id: media_player.bedroom_tv
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.good_night
+
+- id: karen_desk_stripe_on
+  alias: 'Turn Karens desk stripe on when pc turned on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.desktopcmsuh1u
+    from: 'not_home'
+    to: 'home'
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.yeelight_strip_7811dca22b98
+
+- id: karen_desk_stripe_off
+  alias: 'Turn Karens desk stripe off when pc turned on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.desktopcmsuh1u
+    from: 'home'
+    to: 'not_home'
+  action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.yeelight_strip_7811dca22b98

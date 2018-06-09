@@ -1,0 +1,202 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 53.555307
+  longitude: 10.041871
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 2
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Berlin
+  # Customization file
+  customize: !include customize.yaml
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Login and api password
+  api_password: !secret api_password
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  #base_url: sarah
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - plex_mediaserver
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+alexa:
+
+# Text to speech
+tts:
+  - platform: google
+
+media_player:
+  - platform: snapcast
+    host: 192.168.178.27
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+  - platform: webostv
+    host: 192.168.178.60
+    name: Bedroom TV
+    turn_on_action:
+      service: persistent_notification.create
+      data:
+        message: "Turn on action"
+    customize:
+      sources:
+        - youtube
+        - netflix
+
+device_tracker:
+  - platform: fritz
+    host: 192.168.178.1
+    user: !secret fritz_user
+    password: !secret fritz_password
+    consider_home: 180
+    track_new_devices: true
+
+intent_script:
+  ActivateSceneIntent:
+    action:
+      service: scene.turn_on
+      data_template:
+        entity_id: scene.{{ Scene | replace(" ", "_") }}
+    speech:
+      type: plain
+      text: OK
+  RunScriptIntent:
+    action:
+      service: script.turn_on
+      data_template:
+        entity_id: script.{{ Script | replace(" ", "_") }}
+    speech:
+      type: plain
+      text: OK
+
+mqtt:
+  broker: 127.0.0.1
+  port: 1883
+  client_id: home-assistant-1
+  keepalive: 60
+  username: !secret mqtt_user
+  password: !secret mqtt_password
+  birth_message:
+    topic: "tele/hass1/LWT"
+    payload: "Online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: "tele/hass1/LWT"
+    payload: "Offline"
+    qos: 1
+    retain: true
+
+switch:
+  - platform: mqtt
+    name: "washer"
+    state_topic: "stat/washer/POWER"
+    command_topic: "cmnd/washer/POWER"
+    availability_topic: "tele/washer/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
+
+sensor:
+  - platform: yr
+  - platform: mqtt
+    name: "Energy"
+    state_topic: "tele/washer/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Today"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "Power"
+    state_topic: "tele/washer/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Power"] }}'
+    unit_of_measurement: "W"
+  - platform: mqtt
+    name: "Voltage"
+    state_topic: "tele/washer/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
+    unit_of_measurement: "V"
+  - platform: mqtt
+    name: "Current"
+    state_topic: "tele/washer/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Current"] }}'
+    unit_of_measurement: "A"
+  - platform: mqtt
+    name: "Bedroom Temperature"
+    state_topic: "room/bedroom/telemetry"
+    value_template: '{{ value_json["temperature"] }}'
+    qos: 0
+    unit_of_measurement: "ºC"
+  - platform: mqtt
+    name: "Bedroom Humidity"
+    state_topic: "room/bedroom/telemetry"
+    value_template: '{{ value_json["humidity"] }}'
+    qos: 0
+    unit_of_measurement: "%"
+  - platform: mqtt
+    name: "Bathroom Temperature"
+    state_topic: "room/bathroom/telemetry"
+    value_template: '{{ value_json["temperature"] }}'
+    qos: 0
+    unit_of_measurement: "ºC"
+  - platform: mqtt
+    name: "Bathroom Humidity"
+    state_topic: "room/bathroom/telemetry"
+    value_template: '{{ value_json["humidity"] }}'
+    qos: 0
+    unit_of_measurement: "%"
+
+light:
+  - platform: yeelight
+    devices:
+      192.168.178.63:
+        name: Karen desk stripe
+
+notify:
+  - name: pushbullet
+    platform: pushbullet
+    api_key: o.C7R6owXsfApzNdxr22NLQbYWaoEFD1jE
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: http://sarah2:3218
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

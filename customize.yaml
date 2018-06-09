@@ -1,0 +1,25 @@
+media_player.aftb1:
+  friendly_name: Amazon FireTV
+media_player.snapcast_group_19dbbe17d5f4014efa12251a0ff290e2:
+  friendly_name: Snapcast Spotify
+media_player.snapcast_group_206993cb3577154ed001d77040f49799:
+  friendly_name: Airplay
+media_player.snapcast_group_6783524fbce2b5ce0a86ec171ea6c8cf:
+  friendly_name: Snapcast Spotify 3
+media_player.snapcast_group_9354156c485fbf59cf98cccabf2a8988:
+  friendly_name: Snapcast Spotify 4
+media_player.snapcast_group_d9248b81ed5fe9aa81fd81810e7b6e98:
+  friendly_name: Spotify
+media_player.snapcast_client_74da38287656:
+  friendly_name: Snapclient Kitchen
+media_player.snapcast_client_b827eb8aa668:
+  friendly_name: Snapclient Livingroom
+media_player.snapcast_client_b827eb222324:
+  friendly_name: snapcast_client_bath_old
+  hidden: true
+media_player.snapcast_client_b827eb717511:
+  friendly_name: Snapclient Bath
+media_player.snapcast_client_6a5cedaf7c944fdb9c26653cec2ebc5d:
+  hidden: true
+switch.washer:
+  hidden: true

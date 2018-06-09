@@ -1,0 +1,33 @@
+- name: Bedroom movies
+  entities:
+    light.deckenlampe:
+      state: off
+    light.kugel_nik:
+      state: on
+      transition: 2
+      brightness_pct: 5
+    light.kugel_karen:
+      state: on
+      transition: 2
+      brightness_pct: 5
+- name: Good night
+  entities:
+    light.deckenlampe:
+      state: off
+    light.kugel_nik:
+      state: off
+    light.kugel_karen:
+      state: off
+- name: Good morning
+  entities:
+    light.deckenlampe:
+      state: on
+      brightness_pct: 10
+    light.kugel_nik:
+      state: on
+      transition: 2
+      brightness_pct: 100
+    light.kugel_karen:
+      state: on
+      transition: 2
+      brightness_pct: 100
